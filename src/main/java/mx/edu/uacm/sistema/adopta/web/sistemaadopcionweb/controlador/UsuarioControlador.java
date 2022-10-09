@@ -18,4 +18,13 @@ public class UsuarioControlador {
         return "index";
     }
 
+
+    @GetMapping("/registro")
+    public String mostrarFormularioDeRegistro(Model model){
+        model.addAttribute("usuario", new Usuario());
+
+        return "signup_form";
+
+    }
+
 }
