@@ -32,6 +32,7 @@ public class Usuario {
     private int telFijoUsuario;
     private File comprobanteDomicilioFile;
     private File identificacionOficialFile;
+    @Column(nullable = false, length = 64)
     private String password;
 
     public String getPassword() {

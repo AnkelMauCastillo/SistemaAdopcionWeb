@@ -10,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
-import java.util.Date;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -41,6 +39,14 @@ public class UserRepositoryTests {
 
         assertThat(user.getEmailUsuario()).isEqualTo(existUser.getEmailUsuario());
 
+    }
+
+    @Test
+    public void testFindByEmail(){
+        String email = "angel@uacm.edu.mx";
+        Usuario usuario = repo.findByEmail(email);
+
+        assertThat(usuario).isNotNull();
     }
 
 }
