@@ -10,8 +10,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
-    @Column(nullable = false)
-    private int idRolUsuario;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Column(nullable = false, length = 20)
     private String nombreUsuario;
     private String apellidoPaterno;
@@ -35,6 +35,32 @@ public class Usuario {
     @Column(nullable = false, length = 64)
     private String password;
 
+    public Usuario(Role role, String nombreUsuario, String apellidoPaterno, String apellidoMaterno, Date fechaNcimientoUsuario, String generoUsuario, String emailUsuario, int edadUsuario, String calleUsuario, int codigoPostalUsuario, String alcaldia, String colonia, int numeroExterior, int numeroInterior, int celUsuario, int telFijoUsuario, File comprobanteDomicilioFile, File identificacionOficialFile, String password) {
+        this.role = role;
+        this.nombreUsuario = nombreUsuario;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNcimientoUsuario = fechaNcimientoUsuario;
+        this.generoUsuario = generoUsuario;
+        this.emailUsuario = emailUsuario;
+        this.edadUsuario = edadUsuario;
+        this.calleUsuario = calleUsuario;
+        this.codigoPostalUsuario = codigoPostalUsuario;
+        this.alcaldia = alcaldia;
+        this.colonia = colonia;
+        this.numeroExterior = numeroExterior;
+        this.numeroInterior = numeroInterior;
+        this.celUsuario = celUsuario;
+        this.telFijoUsuario = telFijoUsuario;
+        this.comprobanteDomicilioFile = comprobanteDomicilioFile;
+        this.identificacionOficialFile = identificacionOficialFile;
+        this.password = password;
+    }
+
+    public Usuario() {
+
+    }
+
     public String getPassword() {
         return password;
     }
@@ -51,13 +77,7 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdRolUsuario() {
-        return idRolUsuario;
-    }
 
-    public void setIdRolUsuario(int idRolUsuario) {
-        this.idRolUsuario = idRolUsuario;
-    }
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -193,5 +213,13 @@ public class Usuario {
 
     public void setIdentificacionOficialFile(File identificacionOficialFile) {
         this.identificacionOficialFile = identificacionOficialFile;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

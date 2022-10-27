@@ -2,9 +2,12 @@ package mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.seguridad;
 
 import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.modelo.Usuario;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -14,11 +17,11 @@ public class CustomUserDetails implements UserDetails {
         this.usuario = usuario;
     }
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(usuario.getRole().toString()));
+        return authorities;
     }
 
     @Override
@@ -43,15 +46,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getFullName() {
-        return usuario.getNombreUsuario() + " " + usuario.getEmailUsuario();
     }
 }

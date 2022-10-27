@@ -40,4 +40,27 @@ public class UsuarioControlador {
         return "register_success";
     }
 
+    @GetMapping("/donador/login")
+    public String verPaginaDonadorLogin(){
+        return "donador/donador_login";
+    }
+
+    @GetMapping("/candidato/login")
+    public String verPaginaCandidatoLogin(){
+        return "candidato/candidato_login";
+    }
+
+    @GetMapping("/donador/home")
+    public String verPaginaDonadorHome(){
+        return "donador/donador_home";
+    }
+
+    @GetMapping("/candidato/home")
+    public String verPaginaCandidatoHome(){
+        return "candidato/candidato_home";
+    }
+
+
+
+
 }

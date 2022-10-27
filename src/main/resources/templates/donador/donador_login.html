@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donador Login</title>
+</head>
+<body>
+    <h2>Login Donador</h2>
+    <div th:if="${param.error}">
+        <h4 style="color: red">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</h4>
+    </div>
+    <form th:action="@{/donador/login}" method="post">
+        <table>
+            <tr>
+                <td>Email: </td>
+                <td><input type="email" name="email" id="" required></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" id=""></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"> <input type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
