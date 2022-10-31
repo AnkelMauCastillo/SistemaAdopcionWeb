@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Mascotas</title>
+</head>
+<body>
+
+    <form th:action="@{/donador/donador_registro_alta}" th:object="${mascota}" method="post" >
+        <table>
+            <tr>
+                <td>Nombre de la mascota: </td>
+                <td><input type="text" name="" th:field="*{nombreMascota}" id=""></td>
+            </tr>
+            <tr>
+                <td>Sexo: </td>
+                <td><input type="text" name="" th:field="*{sexoMascota}" id=""></td>
+            </tr>
+            <tr>
+                <td>Edad de la mascota: </td>
+                <td>
+                    <input type="number" name="" th:field="*{edadMascota}" id="">
+                </td>
+            </tr>
+            <tr>
+                <td>Peso : </td>
+                <td><input type="number" name="" th:field="*{pesoMascota}" id=""></td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="btn btn-primary">Registrar mascota</button></td>
+            </tr>
+        </table>
+    </form>    
+
+
+
+    
+</body>
+</html>
