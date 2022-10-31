@@ -17,6 +17,7 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioRepository userRepo;
 
+    //se agrego repo mascotas
     @Autowired
     private MascotaRepository mascotaRepo;
 
