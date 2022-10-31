@@ -56,6 +56,7 @@ public class UsuarioControlador {
         return "register_success";
     }
 
+    //controlador alta mascotas
     @PostMapping("/donador/donador_registro_alta")
     public String procesoAltaMascota(Mascota mascota){
 
