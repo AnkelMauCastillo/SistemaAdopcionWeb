@@ -11,6 +11,7 @@
     <p>
         Tu nombre es : <b>[[${#request.userPrincipal.principal.username}]]</b>
     </p>
+    <a th:href="@{/donador/registro_mascotas}">Registra tu mascota</a>
 
     <form th:action="@{/donador/logout}" method="post">
         <input type="submit" value="logout">

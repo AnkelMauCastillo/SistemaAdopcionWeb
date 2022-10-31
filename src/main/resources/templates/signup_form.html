@@ -41,7 +41,10 @@
             <div class="form-group row">
                 <label class="col-4 col-form-label">Rol</label>
                 <div>
-                    <input type="text" th:field="*{role}" class="form-control" required minlength="1" maxlength="20">
+                    <select class="form-control" th:field="*{role}">
+                        <option value="0">select option</option>
+                        <option th:each="role : ${options}" th:value="${role}" th:text="${role}"></option>
+                    </select>
                 </div>
             </div>
 
