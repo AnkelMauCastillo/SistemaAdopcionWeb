@@ -5,3 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MascotaRepository extends CrudRepository<Mascota, Long> {
 }
+//creacion repo mascotas
