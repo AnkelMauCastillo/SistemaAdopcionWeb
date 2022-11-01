@@ -37,7 +37,9 @@ public class UsuarioControlador {
         model.addAttribute("usuario", new Usuario());
 
         for(Role role: Role.values()){
-            options.add(role.toString());
+            if (!role.toString().equals("ADMIN")) {
+                options.add(role.toString());
+            }
         }
         model.addAttribute("options", options);
 

@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @Order(1)
-public class AdminSecurityConfig {
+public class DonadorSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){

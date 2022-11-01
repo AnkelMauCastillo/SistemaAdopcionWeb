@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -46,9 +47,39 @@ public class UserRepositoryTests {
     @Test
     public void testFindByEmail(){
         String email = "angel@uacm.edu.mx";
-        //Usuario usuario = repo.findByEmail(email);
+        Usuario usuario = repo.findByEmail(email);
 
-        //assertThat(usuario).isNotNull();
+        assertThat(usuario).isNotNull();
+    }
+
+    @Test
+    public void testListaDeUsuarios(){
+        Iterable<Usuario> listaUsuarios = repo.findAll();
+        listaUsuarios.forEach(usuario -> System.out.println(usuario.toString()));
+    }
+
+    @Test
+    public void testGetUsuariobyId(){
+        Usuario usuario = repo.findById(3L).get();
+        System.out.println(usuario);
+        assertThat(usuario).isNotNull();
+    }
+
+    @Test
+    public void testUpdateUsuarioDetails(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Usuario usuario = repo.findById(2L).get();
+        usuario.setPassword(passwordEncoder.encode("123456"));
+        System.out.println(usuario);
+
+        repo.save(usuario);
+    }
+
+    @Test
+    public void testDeleteUsuario(){
+        Long usuarioId = 6L;
+        repo.deleteById(usuarioId);
+
     }
 
 }
