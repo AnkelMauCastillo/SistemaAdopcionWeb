@@ -36,15 +36,19 @@ public class UsuarioControlador {
         List<String> options = new ArrayList<String>();
         model.addAttribute("usuario", new Usuario());
 
+        agregarRoles(options);
+        model.addAttribute("options", options);
+
+        return "signup_form";
+
+    }
+
+    private static void agregarRoles(List<String> options) {
         for(Role role: Role.values()){
             if (!role.toString().equals("ADMIN")) {
                 options.add(role.toString());
             }
         }
-        model.addAttribute("options", options);
-
-        return "signup_form";
-
     }
 
     @PostMapping("/registro_de_proceso")
