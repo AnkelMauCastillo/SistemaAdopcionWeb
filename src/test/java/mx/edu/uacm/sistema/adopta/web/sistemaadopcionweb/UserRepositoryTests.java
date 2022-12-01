@@ -1,7 +1,9 @@
 package mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb;
 
+import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.modelo.Mascota;
 import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.modelo.Role;
 import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.modelo.Usuario;
+import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.repositorio.MascotaRepository;
 import mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.repositorio.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +21,21 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Rollback(false)
 public class UserRepositoryTests {
 
+
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private UsuarioRepository repo;
 
+    @Autowired
+    private MascotaRepository mascotaRepository;
+
     // test methods go below
     @Test
     public void testCreateUser() {
         Usuario user = new Usuario();
-        user.setEmailUsuario("eduardo@uacm.edu.mx");
+        user.setEmailUsuario("eduardin@uacm.edu.mx");
         user.setPassword("123456");
         user.setNombreUsuario("EDuardo");
         //user.setIdRolUsuario(1);
@@ -46,7 +52,7 @@ public class UserRepositoryTests {
 
     @Test
     public void testFindByEmail(){
-        String email = "angel@uacm.edu.mx";
+        String email = "vegeta@uacm.edu.mx";
         Usuario usuario = repo.findByEmail(email);
 
         assertThat(usuario).isNotNull();
@@ -77,9 +83,18 @@ public class UserRepositoryTests {
 
     @Test
     public void testDeleteUsuario(){
-        Long usuarioId = 6L;
+        Long usuarioId = 10L;
         repo.deleteById(usuarioId);
 
     }
+
+    @Test
+    public void tesTidMascota(){
+        Mascota mascota = mascotaRepository.findByIdMascota(1L);
+        System.out.println(mascota);
+
+    }
+
+
 
 }

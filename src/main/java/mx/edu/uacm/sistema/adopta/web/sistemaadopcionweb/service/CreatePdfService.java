@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
+/*
 @Service
 public class CreatePdfService {
 
     public void createPdf(){
         String filePdf = "D:/Desktop/pdfFile/SamplePdfFile.pdf";
         ArrayList<Mascota> mascotaList = new ArrayList<>();
-        Mascota mascota1 = new Mascota(1L,"Peluche","Macho",3L,3.45);
-        Mascota mascota2 = new Mascota(1L,"Dexter","Macho",3L,3.45);
-        mascotaList.add(mascota1);
-        mascotaList.add(mascota2);
+        //Mascota mascota1 = new Mascota(1L,"Peluche","Macho",3L,3.45);
+        //Mascota mascota2 = new Mascota(1L,"Dexter","Macho",3L,3.45);
+        //mascotaList.add(mascota1);
+        //mascotaList.add(mascota2);
 
 
         try {
@@ -52,3 +52,5 @@ public class CreatePdfService {
         }
     }
 }
+*
+ */

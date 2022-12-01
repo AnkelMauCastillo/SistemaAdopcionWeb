@@ -1,41 +1,160 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Mascotas</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
+
 <body>
+    <p>
+        Tu usuario es : <b>[[${#request.userPrincipal.principal.username}]]</b>
+    </p> 
+    <nav class="navbar navbar-dark bg-dark" th:object="${usuarioId}">
+        <span class="navbar-brand mb-0 h1">[[${usuarioId.role}]] | Registrar Mascotas</span>
+    </nav>   
 
-    <form th:action="@{/donador/donador_registro_alta}" th:object="${mascota}" method="post" >
-        <table>
-            <tr>
-                <td>Nombre de la mascota: </td>
-                <td><input type="text" name="" th:field="*{nombreMascota}" id=""></td>
-            </tr>
-            <tr>
-                <td>Sexo: </td>
-                <td><input type="text" name="" th:field="*{sexoMascota}" id=""></td>
-            </tr>
-            <tr>
-                <td>Edad de la mascota: </td>
-                <td>
-                    <input type="number" name="" th:field="*{edadMascota}" id="">
-                </td>
-            </tr>
-            <tr>
-                <td>Peso : </td>
-                <td><input type="number" name="" th:field="*{pesoMascota}" id=""></td>
-            </tr>
-            <tr>
-                <td><button type="submit" class="btn btn-primary">Registrar mascota</button></td>
-            </tr>
-        </table>
-    </form>    
-
-
+   
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav" th:object="${usuarioId}">
+            <a class="nav-item nav-link active" th:href="@{/donador/home/}">Donador<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:href="@{'/donador/editar_usuario/' + ${usuarioId.idUsuario}}">Editar Datos Personales</a>
+            <a class="nav-item nav-link"th:href="@{'/donador/registro_mascotas/' + ${usuarioId.idUsuario}}">Registrar Mascota</a>
+            <a class="nav-item nav-link" th:href="@{'/donador/listado_mascotas/' + ${usuarioId.idUsuario}}">Listado de Mascotas</a>
+            <form th:action="@{/donador/logout}" method="post" class="nav-item nav-link">
+                <input type="submit" value="Cerrar Sesión">
+            </form>
+          </div>
+        </div>
+    </nav>
 
     
+
+    
+
+    <form th:action="@{/donador/donador_registro_alta}" th:object="${mascota}" method="post" 
+     style="max-width: 700px; margin: 0 auto;"
+     enctype="multipart/form-data">
+        <div class="form-group">
+            <label >Nombre Completo</label><br>
+            <input type="text"  th:value="${nombreCompleto}" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+            <label>Nombre de la Mascota</label>
+            <input type="text" class="form-control" th:field="*{nombreMascota}" required>
+        </div>
+        <div class="form-group">
+            <label>Sexo de la Mascota</label>
+            <select class="form-control" th:field="*{sexoMascota}">
+                <option value="0">Ingresa el Sexo de tu Mascota</option>
+                <option th:each="i : ${sexoMascotas}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo de Mascota</label>
+            <select class="form-control" th:field="*{tipoDeMascota}">
+                <option value="0">Ingresa el tipo de Mascota</option>
+                <option th:each="i : ${tipoMascotas}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Edad de la Mascota</label>
+            <input type="number" class="form-control" th:field="*{edadMascota}" required>
+        </div>
+        <div class="form-group">
+            <label>Peso de la Mascota</label>
+            <input type="number" class="form-control" th:field="*{pesoMascota}" required>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Foto de tu Mascota</label>
+            <div class="col-sm-8">
+                <input type="hidden" th:field="*{imgMascota}">
+                <input type="file" id="fileImage" name="image" accept="image/png, image/jpeg"
+                class="mb-2">
+                <img id="thumbnail" alt="vista previa de la foto" 
+                th:src="@{${mascota.MascotaImagePath}}"
+                class="img-fluid">
+            </div>
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Registrar mascota</button>
+    </form>
+
+
+
+
 </body>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#buttonCancelar").on("click", function () {
+            window.location = "[[@{/donador/home}]]"
+        });
+        $("#fileImage").change(function (params) {
+            fileSize = this.files[0].size;
+            //alert("File size : " + fileSize);
+
+            if (fileSize > 1048576) {
+                this.setCustomValidity("¡Debes elegir una imagen de menos de 1 MB!");
+                this.reportValidity();                
+            }else{
+                this.setCustomValidity("");
+                showImageThumbnail(this);
+            }
+            
+        })
+    });
+
+    //para cargar imagenes
+    function showImageThumbnail(fileInput){
+        let file = fileInput.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $("#thumbnail").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    function checkEmailUnique(form) {
+        url = "[[@{/donador/check_email}]]";
+        userEmail = $("#emailUsuario").val();
+        userId = $("#idUsuario").val();
+        csrfValue = $("input[name = '_csrf']").val();
+        params = { id: userId, email: userEmail, _csrf: csrfValue };
+
+
+
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicated") {
+                showModalDialog("Advertencia", "El correo: " + userEmail + " esta en la Bd");
+            } else {
+                showModalDialog("Error", "Respuesta desconocida del servidor");
+            }
+
+        }).fail(function () {
+            showModalDialog("Error", "No se pudo conectar al servidorr");
+        });
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#modalDialog").modal();
+    }
+</script>
+
+
 </html>

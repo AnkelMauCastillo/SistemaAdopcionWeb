@@ -3,23 +3,33 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Bienvenido al Sistema de Adopcion de Mascotas</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <title>Sistema de Adopcion de Mascotas</title>
-</head>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>    
 <body>
-    <div class="container text-center">
-        <div>
-            <h1>Sistema de Adopcion</h1>
+    
+    <!-- As a heading -->
+    <nav class="navbar">
+        <span class="navbar-brand mb-0 h1" >Sistema de Adopción de Mascotas</span>
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" th:href="@{/registro}">Registro <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" th:href="@{/donador/login}">Acceso a Donadores</a>
+            <a class="nav-item nav-link active" th:href="@{/candidato/login}">Acceso a Candidatos</a>           
+            
+          </div>
         </div>
-        <div>
-            <h3><a th:href="@{/registro}">Registro</a> </h3>
-            <h3><a th:href="@{/usuarios}"> Lista de Usuarios</a></h3>
-            <h3><a th:href="@{/donador/login}">Login Donador</a></h3>
-            <h3><a th:href="@{/candidato/login}">Login Candidato</a></h3>
-        </div>
-    </div>
+    </nav>
+   
    
 
     

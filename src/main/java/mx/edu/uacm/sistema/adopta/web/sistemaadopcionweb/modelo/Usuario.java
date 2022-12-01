@@ -1,8 +1,14 @@
 package mx.edu.uacm.sistema.adopta.web.sistemaadopcionweb.modelo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -17,27 +23,38 @@ public class Usuario {
     private String apellidoPaterno;
     private String apellidoMaterno;
 
-    private Date fechaNcimientoUsuario;
+    //@Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fechaNcimientoUsuario;
     private String generoUsuario;
     @Column(nullable = false, unique = true)
     private String emailUsuario;
     private int edadUsuario;
     private String calleUsuario;
-    private int codigoPostalUsuario;
+    private Long codigoPostalUsuario;
     private String alcaldia;
     private String colonia;
-    private int numeroExterior;
-    private int numeroInterior;
-    private int celUsuario;
-    private int telFijoUsuario;
+    private Long numeroExterior;
+    private Long numeroInterior;
+    private Long celUsuario;
+    private Long telFijoUsuario;
     private String comprobanteDomicilioFile;
     private String identificacionOficialFile;
     @Column(nullable = false, length = 64)
     private String password;
     private boolean habilitado;
 
+    @ManyToMany(mappedBy = "usuarios")
+    private Set<Mascota> mascotas = new HashSet<>();
+
+
+
+
+
     public Usuario() {
     }
+
+
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -79,11 +96,11 @@ public class Usuario {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Date getFechaNcimientoUsuario() {
+    public LocalDate getFechaNcimientoUsuario() {
         return fechaNcimientoUsuario;
     }
 
-    public void setFechaNcimientoUsuario(Date fechaNcimientoUsuario) {
+    public void setFechaNcimientoUsuario(LocalDate fechaNcimientoUsuario) {
         this.fechaNcimientoUsuario = fechaNcimientoUsuario;
     }
 
@@ -119,11 +136,11 @@ public class Usuario {
         this.calleUsuario = calleUsuario;
     }
 
-    public int getCodigoPostalUsuario() {
+    public Long getCodigoPostalUsuario() {
         return codigoPostalUsuario;
     }
 
-    public void setCodigoPostalUsuario(int codigoPostalUsuario) {
+    public void setCodigoPostalUsuario(Long codigoPostalUsuario) {
         this.codigoPostalUsuario = codigoPostalUsuario;
     }
 
@@ -143,35 +160,35 @@ public class Usuario {
         this.colonia = colonia;
     }
 
-    public int getNumeroExterior() {
+    public Long getNumeroExterior() {
         return numeroExterior;
     }
 
-    public void setNumeroExterior(int numeroExterior) {
+    public void setNumeroExterior(Long numeroExterior) {
         this.numeroExterior = numeroExterior;
     }
 
-    public int getNumeroInterior() {
+    public Long getNumeroInterior() {
         return numeroInterior;
     }
 
-    public void setNumeroInterior(int numeroInterior) {
+    public void setNumeroInterior(Long numeroInterior) {
         this.numeroInterior = numeroInterior;
     }
 
-    public int getCelUsuario() {
+    public Long getCelUsuario() {
         return celUsuario;
     }
 
-    public void setCelUsuario(int celUsuario) {
+    public void setCelUsuario(Long celUsuario) {
         this.celUsuario = celUsuario;
     }
 
-    public int getTelFijoUsuario() {
+    public Long getTelFijoUsuario() {
         return telFijoUsuario;
     }
 
-    public void setTelFijoUsuario(int telFijoUsuario) {
+    public void setTelFijoUsuario(Long telFijoUsuario) {
         this.telFijoUsuario = telFijoUsuario;
     }
 
@@ -206,4 +223,35 @@ public class Usuario {
     public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
+
+    public Set<Mascota> getMascotas() {
+        return mascotas;
+    }
+
+    public void setMascotas(Set<Mascota> mascotas) {
+        this.mascotas = mascotas;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nombreUsuario='" + nombreUsuario + '\'' +
+                ", apellidoPaterno='" + apellidoPaterno + '\'' +
+                ", apellidoMaterno='" + apellidoMaterno + '\'' +
+                '}';
+    }
+
+    @Transient
+    public String getIneImagePath(){
+        if (idUsuario == null || identificacionOficialFile == null) return "/image/default-user.png";
+        return "/user-photos/" + this.idUsuario + "/" + this.identificacionOficialFile;
+    }
+
+    public void addMascotas(Mascota mascota){
+        this.mascotas.add(mascota);
+
+    }
+
 }
+
+

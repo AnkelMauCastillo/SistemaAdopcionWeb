@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <title>Candidato</title>
+    <title>Adoptar Mascotas</title>
 </head>
+
 <body>
     <p>
         Tu usuario es : <b>[[${#request.userPrincipal.principal.username}]]</b>
     </p> 
     <nav class="navbar navbar-dark bg-dark" th:object="${usuario}">
-        <span class="navbar-brand mb-0 h1">[[${usuario.role}]] | HOME</span>
+        <span class="navbar-brand mb-0 h1">[[${usuario.role}]] | ADOPTAR MASCOTA</span>
     </nav>   
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,12 +29,44 @@
             <a class="nav-item nav-link" th:href="@{'/candidato/editar_usuario/' + ${usuario.idUsuario}}">Editar Datos Personales</a>
             <a class="nav-item nav-link"th:href="@{'/candidato/adoptar_mascotas/' + ${usuario.idUsuario}}">Adoptar Mascota</a>
             <a class="nav-item nav-link" th:href="@{'/candidato/listado_mascotas/' + ${usuario.idUsuario}}">Seguimiento de solicitudes de Mascotas</a>
-            <a class="nav-item nav-link" th:href="@{/candidato/export/pdf}">Exportar a PDF</a>
+            <a  class="nav-item nav-link" th:href="@{/candidato/export/pdf}">Exportar a PDF</a>
             <form th:action="@{/candidato/logout}" method="post" class="nav-item nav-link">
                 <input type="submit" value="Cerrar Sesión">
             </form>
           </div>
         </div>
     </nav>
+    <table class="table table-bordered table-striped table-hover table-responsive-xL">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID Mascotas</th>
+                <th>Nombre de la Mascota</th>
+                <th>Foto de la Mascota</th>
+                <th>Tipo</th>
+                <th>Edad</th>
+                <th>Peso</th>
+                <th>Sexo</th>
+            </tr>
+        <tbody>
+            <tr th:each="mascota : ${mascotas}">
+                <th>[[${mascota.idMascota}]]</th>
+                <th>[[${mascota.nombreMascota}]]</th>
+                <th>
+                    <span th:if="${mascota.imgMascota == null}"
+                        class="fa-solid fa-image-portrait fa-2x icon-silver"></span>
+                    <img th:if="${mascota.imgMascota != null}" th:src="@{${mascota.MascotaImagePath}}"
+                        style="width: 100px;">
+                </th>
+                <th>[[${mascota.tipoDeMascota}]]</th>
+                <th>[[${mascota.edadMascota}]]</th>
+                <th>[[${mascota.pesoMascota}]]</th>
+                <th>[[${mascota.sexoMascota}]]</th>
+            </tr>
+        </tbody>
+        </thead>
+    </table>
+    </div>
+
 </body>
+
 </html>

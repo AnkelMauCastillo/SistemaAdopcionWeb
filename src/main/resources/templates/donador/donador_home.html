@@ -1,20 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <title>Registrar Mascota</title>
 </head>
 <body>
-    
     <p>
-        Tu nombre es : <b>[[${#request.userPrincipal.principal.username}]]</b>
+        Tu usuario es : <b>[[${#request.userPrincipal.principal.username}]]</b>
     </p>
-    <a th:href="@{/donador/registro_mascotas}">Registra tu mascota</a>
+    <nav class="navbar navbar-dark bg-dark" th:object="${usuario}">
+        <span class="navbar-brand mb-0 h1">[[${usuario.role}]] | HOME</span>
+    </nav>   
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav" th:object="${usuario}">
+            <a class="nav-item nav-link active" th:href="@{/donador/home/}">Donador<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:href="@{'/donador/editar_usuario/' + ${usuario.idUsuario}}">Editar Datos Personales</a>
+            <a class="nav-item nav-link"th:href="@{'/donador/registro_mascotas/' + ${usuario.idUsuario}}">Registrar Mascota</a>
+            <a class="nav-item nav-link" th:href="@{'/donador/listado_mascotas/' + ${usuario.idUsuario}}">Listado de Mascotas</a>
+            <form th:action="@{/donador/logout}" method="post" class="nav-item nav-link">
+                <input type="submit" value="Cerrar Sesión">
+            </form>
+          </div>
+        </div>
+    </nav>
+    
+    
 
-    <form th:action="@{/donador/logout}" method="post">
-        <input type="submit" value="logout">
-    </form>
+    <div>
+        <h2>Manage usuario</h2>
+    </div>
+
+    
+
+    
+
+   
 </body>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#buttonCancelar").on("click", function () {
+            window.location = "[[@{/donador/home}]]"
+        });
+        $("#fileImage").change(function (params) {
+            fileSize = this.files[0].size;
+            //alert("File size : " + fileSize);
+
+            if (fileSize > 1048576) {
+                this.setCustomValidity("¡Debes elegir una imagen de menos de 1 MB!");
+                this.reportValidity();                
+            }else{
+                this.setCustomValidity("");
+                showImageThumbnail(this);
+            }
+            
+        })
+    });
+
+    //para cargar imagenes
+    function showImageThumbnail(fileInput){
+        let file = fileInput.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $("#thumbnail").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    function checkEmailUnique(form) {
+        url = "[[@{/donador/check_email}]]";
+        userEmail = $("#emailUsuario").val();
+        userId = $("#idUsuario").val();
+        csrfValue = $("input[name = '_csrf']").val();
+        params = { id: userId, email: userEmail, _csrf: csrfValue };
+
+
+
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicated") {
+                showModalDialog("Advertencia", "El correo: " + userEmail + " esta en la Bd");
+            } else {
+                showModalDialog("Error", "Respuesta desconocida del servidor");
+            }
+
+        }).fail(function () {
+            showModalDialog("Error", "No se pudo conectar al servidorr");
+        });
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#modalDialog").modal();
+    }
+</script>
 </html>
